@@ -25,25 +25,25 @@ public class DaoUserImpl implements DaoUser {
 
         System.out.println("\n ==== createNewUser method in DaoUserImpl");
         System.out.println("Trying to add " + user);
-        System.out.println("Roles :=  " + user.getRoles());
 
-        Set<Role> eSet = null;
-        if (user.getRoles().size() != 0) {
-            System.out.println(("... user.getRoles().size Detected as not 0 ...."));
-            eSet = user.getRoles();
+        Set<Role> eSet = user.getRoles();
+
+        if (eSet != null) {
+            System.out.println("Roles :=  " + eSet + " in List: ");
+            eSet.forEach(System.out::println);
+            System.out.println(("... user has roles.... user.getRoles().size Detected " + eSet.size() + " roles"));
         } else {
-            Role defaultRole = new Role(RoleEnum.ROLE_USER);
-            eSet.add(defaultRole);
-            user.setRoles(eSet);
-        }
+            System.out.println("user don't have a roles.");
+//            User tempUser = new User();
+//            tempUser.setLogin(user.getLogin());
 
-        em.persist(user);
-        for (Role aRole: eSet) {
-            em.persist(aRole);
-            System.out.println("== Added role:" + aRole + " добавлен в базу данных");
+            Role defaultRole = new Role(1L, "ROLE_USER");
+            Set<Role> defSet = new HashSet<>();
+            defSet.add(defaultRole);
+            user.setRoles(defSet);
         }
-
-//        em.persist(user.getRoles());
+        System.out.println("saving ... (merge)");
+        user = em.merge(user);
         System.out.println("User " + user + " добавлен в базу данных");
     }
 

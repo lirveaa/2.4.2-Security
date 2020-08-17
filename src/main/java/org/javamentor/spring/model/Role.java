@@ -16,8 +16,7 @@ public class Role implements GrantedAuthority {
     private Long id;
 
     @Column(name = "role")
-    @Enumerated(EnumType.STRING)
-    private RoleEnum role;
+    private String role;
 
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
@@ -25,8 +24,8 @@ public class Role implements GrantedAuthority {
     public Role() {
     }
 
-    public Role( RoleEnum role ) {
-       // this.id = id;
+    public Role(long id,  String role ) {
+        this.id = id;
         this.role = role;
     }
 
@@ -38,11 +37,11 @@ public class Role implements GrantedAuthority {
         this.id = id;
     }
 
-    public RoleEnum getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(RoleEnum role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
@@ -65,6 +64,6 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
-        return role.name();
+        return role;
     }
 }

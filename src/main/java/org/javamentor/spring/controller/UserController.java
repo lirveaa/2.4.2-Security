@@ -38,16 +38,16 @@ public class UserController {
             insertDataToDatabase();
             isInit = true;
         }
-        System.out.println("=========== I'm in startMVCApp method() ========");
+        System.out.println("\n=========== I'm in startMVCApp method() ========");
         List<User> userList = userService.usersList();
-        System.out.println("\n====== List: ======");
-        for (int i = 0; i < userList.size(); i++) {
-            System.out.println(userList.get(i));
-            Set<Role> roleSet = userList.get(i).getRoles();
-            for (Role thisRole: roleSet ) {
-                System.out.println("    Role: " + thisRole);
-            }
-        }
+//        System.out.println("\n====== Called startMVCApp method() from List: ======");
+//        for (int i = 0; i < userList.size(); i++) {
+//            System.out.println(userList.get(i));
+//            Set<Role> roleSet = userList.get(i).getRoles();
+//            for (Role thisRole: roleSet ) {
+//                System.out.println("    Role: " + thisRole);
+//            }
+//        }
         modelMap.addAttribute("listUsers", userList);
         return "start";
     }
@@ -98,15 +98,15 @@ public class UserController {
     }
 
     private void insertDataToDatabase() {
-        System.out.println("Inserting data ....");
+        System.out.println("\nInserting data ....");
 
-        Role roleAdmin = new Role(RoleEnum.ADMIN);
-        Role roleUser = new Role(RoleEnum.ROLE_USER);
-        Role roleAnon = new Role(RoleEnum.ROLE_ANONYMOUS);
+        Role roleUser = new Role(1L, "ROLE_USER");
+        Role roleAdmin = new Role(2L, "ROLE_ADMIN");
 
-        Set<Role> set1 = new HashSet<>();
-        set1.add(roleAdmin);
+
+        Set<Role> set1 = new HashSet<Role>();
         set1.add(roleUser);
+        set1.add(roleAdmin);
 
         Set<Role>  set2 = new HashSet<>();
         set2.add(roleAdmin);
@@ -115,14 +115,17 @@ public class UserController {
         set3.add(roleUser);
 
 
-        User john = new User("Elton", "Pass1", 1960,  set1);
+        User marlo = new User("Marlon", "pass", 1955, set1);
+
+        User john = new User("Elton", "Pass1", 1960, set2);
         User jackson = new User("Michael", "password", 1965, set3);
         User jagger = new User("Mick", "pass", 1956, set3);
-        User marlo = new User("Marlon", "pass", 1955, set3);
         User tiger = new User("test", "test", 1970, set2);
 
 
         userService.createNewUser(marlo);
+        System.out.println("coming from add method...");
+
         userService.createNewUser(john);
         userService.createNewUser(jackson);
         userService.createNewUser(jagger);
@@ -131,13 +134,15 @@ public class UserController {
 
         List<User> userList = userService.usersList();
         System.out.println("\n====== List: ======");
-        for (int i = 0; i < userList.size(); i++) {
-            System.out.println(userList.get(i));
-            Set<Role> roleSet = userList.get(i).getRoles();
-            for (Role thisRole: roleSet ) {
-                System.out.println("    Role: " + thisRole);
-            }
-        }
+        userList.forEach(System.out::println);
+
+//        for (int i = 0; i < userList.size(); i++) {
+//            System.out.println(userList.get(i));
+//            Set<Role> roleSet = userList.get(i).getRoles();
+//            for (Role thisRole: roleSet ) {
+//                System.out.println("    Role: " + thisRole);
+//            }
+//        }
 
     }
 }

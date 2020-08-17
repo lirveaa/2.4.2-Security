@@ -1,6 +1,7 @@
 package org.javamentor.spring.dao;
 
 import org.javamentor.spring.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 

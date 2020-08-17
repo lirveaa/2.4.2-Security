@@ -84,7 +84,7 @@ public class User  implements UserDetails {
     @Override
     public String toString() {
         return "Username: " + login +
-                " password: " + password + " age: " + age;
+                " password: " + password + " id: " + id;
     }
 
 
