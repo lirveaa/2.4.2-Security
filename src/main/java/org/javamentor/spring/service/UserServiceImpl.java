@@ -2,6 +2,7 @@ package org.javamentor.spring.service;
 
 import org.javamentor.spring.dao.DaoUser;
 import org.javamentor.spring.dao.DaoUserImpl;
+import org.javamentor.spring.model.Role;
 import org.javamentor.spring.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,5 +51,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> usersList() {
         return daoUser.usersList();
+    }
+
+    @Transactional
+    @Override
+    public List<Role> rolesList() {
+        return daoUser.rolesList();
     }
 }

@@ -1,7 +1,6 @@
 package org.javamentor.spring.controller;
 
 import org.javamentor.spring.model.Role;
-import org.javamentor.spring.model.RoleEnum;
 import org.javamentor.spring.model.User;
 import org.javamentor.spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,33 +115,47 @@ public class UserController {
 
 
         User marlo = new User("Marlon", "pass", 1955, set1);
-
         User john = new User("Elton", "Pass1", 1960, set2);
         User jackson = new User("Michael", "password", 1965, set3);
         User jagger = new User("Mick", "pass", 1956, set3);
         User tiger = new User("test", "test", 1970, set2);
 
+        marlo.getRoles().add(roleAdmin);
+
 
         userService.createNewUser(marlo);
-        System.out.println("coming from add method...");
-
         userService.createNewUser(john);
         userService.createNewUser(jackson);
         userService.createNewUser(jagger);
         userService.createNewUser(marlo);
         userService.createNewUser(tiger);
 
+
+
         List<User> userList = userService.usersList();
         System.out.println("\n====== List: ======");
         userList.forEach(System.out::println);
 
-//        for (int i = 0; i < userList.size(); i++) {
-//            System.out.println(userList.get(i));
-//            Set<Role> roleSet = userList.get(i).getRoles();
-//            for (Role thisRole: roleSet ) {
-//                System.out.println("    Role: " + thisRole);
-//            }
-//        }
+        System.out.println("\n ============= Now trying to get roles... =============");
+        System.out.println("============ Calling by rolesList()==============");
+        List<Role> rolesListSimple = userService.rolesList();
+        rolesListSimple.forEach(System.out::println);
+
+        System.out.println("============ Calling be rolesList() result =============");
+        System.out.println("============ Old Method ==================");
+        for (int i = 0; i < userList.size(); i++) {
+           // System.out.println(userList.get(i));
+            User aUser = userService.getUser(userList.get(i).getLogin());
+           // Set<Role> roleSet = userList.get(i).getRoles();
+            System.out.println("User: = " + aUser);
+            aUser.printAllRoles();
+            Set<Role> roleSet = aUser.getRoles();
+            System.out.println("Roles: = " + roleSet);
+            for (Role thisRole: roleSet ) {
+                System.out.println("    Role: " + thisRole);
+            }
+        }
+        System.out.println(" ================ End get Roles... ==============");
 
     }
 }

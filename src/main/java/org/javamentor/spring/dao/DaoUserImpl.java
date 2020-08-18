@@ -1,7 +1,6 @@
 package org.javamentor.spring.dao;
 
 import org.javamentor.spring.model.Role;
-import org.javamentor.spring.model.RoleEnum;
 import org.javamentor.spring.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -37,12 +36,14 @@ public class DaoUserImpl implements DaoUser {
             System.out.println("user don't have a roles. I add ROLE_USER");
             Set<Role> defSet = new HashSet<>();
             Role aRole = em.find(Role.class, 1L);
-            defSet.add(new Role(1L, "ROLE_USER"));
+            defSet.add(aRole);
             user.setRoles(defSet);
             System.out.println("Trying to add renewed  " + user);
         }
+
         System.out.println("saving ... (merge)");
         user = em.merge(user);
+        //em.merge(aRole);
 
         System.out.println("User " + user + " добавлен в базу данных");
         em.clear();
@@ -72,7 +73,11 @@ public class DaoUserImpl implements DaoUser {
                     "select u from User u where u.login = :login",
                     User.class );
                 query.setParameter("login", login);
-            return query.getResultList().stream().findAny().orElse(null);
+            User aUser = query.getResultList().stream().findAny().orElse(null);
+
+            aUser = em.merge(aUser); //May be don't need
+
+            return aUser;
         }
 
     @Override
@@ -81,4 +86,13 @@ public class DaoUserImpl implements DaoUser {
                 em.createQuery("SELECT u FROM User u", User.class);
         return query.getResultList();
     }
+
+//    @SuppressWarnings("unchecked")
+    @Override
+    public List<Role> rolesList() {
+        TypedQuery<Role> query =
+                em.createQuery("SELECT u FROM Role u", Role.class);
+        return query.getResultList();
+    }
+
 }

@@ -1,7 +1,6 @@
 package org.javamentor.spring.service;
 
 import org.javamentor.spring.model.User;
-import org.javamentor.spring.model.RoleEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -43,9 +42,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = userService.getUser(aName);
         // указываем роли для этого пользователя
         Set<GrantedAuthority> roles = new HashSet();
-        roles.add(new SimpleGrantedAuthority(RoleEnum.ADMIN.name()));
-        roles.add(new SimpleGrantedAuthority(RoleEnum.ROLE_USER.name()));
-        roles.add(new SimpleGrantedAuthority(RoleEnum.ROLE_ANONYMOUS.name()));
+        roles.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        roles.add(new SimpleGrantedAuthority("ROLE_USER"));
+
 
         // на основании полученных данных формируем объект UserDetails
         // который позволит проверить введенный пользователем логин (name) и пароль

@@ -15,8 +15,6 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import static org.javamentor.spring.model.RoleEnum.ADMIN;
-
 @Configuration
 @EnableWebSecurity
 @ComponentScan("org.javamentor.spring")

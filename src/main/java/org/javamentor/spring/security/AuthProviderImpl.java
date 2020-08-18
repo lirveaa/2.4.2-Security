@@ -2,7 +2,6 @@ package org.javamentor.spring.security;
 
 import org.javamentor.spring.dao.DaoUser;
 import org.javamentor.spring.model.Role;
-import org.javamentor.spring.model.RoleEnum;
 import org.javamentor.spring.model.User;
 import org.javamentor.spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +45,8 @@ public class AuthProviderImpl implements AuthenticationProvider {
         System.out.println("authentication.getDetails() = " + authentication.getDetails());
         System.out.println("authentication.getPrincipal() " + authentication.getPrincipal());
 
-//        Set<Role> roles1 = userServ.getUser(login).getRoles();
-//        System.out.println("His roles: " + roles1);
+        Set<Role> roles1 = userService.getUser(login).getRoles();
+        System.out.println("His roles: " + roles1);
 
         Set<GrantedAuthority> roles = new HashSet();
         roles.add(new SimpleGrantedAuthority("ROLE_ADMIN"));

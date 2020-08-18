@@ -28,12 +28,14 @@ public class User  implements UserDetails {
     @Column(name = "age")
     private int age;
 
-    @ManyToMany
+    @ManyToMany (fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
     public User() {
+//        roles = new HashSet<>();
+//        roles.add(new Role(1L, "ROLE_USER"));
     }
 
     public User(String login, String password, int age, Set<Role> roles) {
@@ -42,6 +44,8 @@ public class User  implements UserDetails {
         this.age = age;
         this.roles = roles;
     }
+
+
 
     public Long getId() {
         return id;
@@ -72,6 +76,7 @@ public class User  implements UserDetails {
     }
 
     public Set<Role> getRoles() {
+
         return roles;
     }
 
@@ -89,8 +94,13 @@ public class User  implements UserDetails {
 
     @Override
     public String toString() {
+        System.out.println("Called User.toString");
+        for (Role role: roles) {
+            System.out.println("Role: = " + role);
+        }
         return "Username: " + login +
                 " password: " + password + " id: " + id;
+
     }
 
 
