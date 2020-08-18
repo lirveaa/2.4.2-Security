@@ -2,6 +2,8 @@ package org.javamentor.spring.controller;
 
 import org.javamentor.spring.model.Role;
 import org.javamentor.spring.model.User;
+import org.javamentor.spring.service.RoleService;
+import org.javamentor.spring.service.RoleServiceImpl;
 import org.javamentor.spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,9 @@ public class UserController {
 
     @Autowired
     public UserService userService;
+
+    @Autowired
+    public RoleService roleService;
 
     public UserController() {
     }
@@ -73,7 +78,7 @@ public class UserController {
     @PostMapping(value = "/save")
     public String saveUser(@ModelAttribute("user") User user) {
         userService.createNewUser(user);
-        return "redirect:/user/start";
+        return "redirect:/start";
     }
 
     @GetMapping("/edit")
@@ -87,7 +92,7 @@ public class UserController {
     @PostMapping(value = "/update")
     public String updateUser(@ModelAttribute("user") User user) {
         userService.updateUser(user);
-        return "redirect:/user/start";
+        return "redirect:/start";
     }
 
     @GetMapping("/delete")
@@ -130,32 +135,21 @@ public class UserController {
         userService.createNewUser(marlo);
         userService.createNewUser(tiger);
 
-
-
-        List<User> userList = userService.usersList();
         System.out.println("\n====== List: ======");
-        userList.forEach(System.out::println);
-
-        System.out.println("\n ============= Now trying to get roles... =============");
-        System.out.println("============ Calling by rolesList()==============");
-        List<Role> rolesListSimple = userService.rolesList();
-        rolesListSimple.forEach(System.out::println);
-
-        System.out.println("============ Calling be rolesList() result =============");
-        System.out.println("============ Old Method ==================");
-        for (int i = 0; i < userList.size(); i++) {
-           // System.out.println(userList.get(i));
-            User aUser = userService.getUser(userList.get(i).getLogin());
-           // Set<Role> roleSet = userList.get(i).getRoles();
-            System.out.println("User: = " + aUser);
-            aUser.printAllRoles();
-            Set<Role> roleSet = aUser.getRoles();
-            System.out.println("Roles: = " + roleSet);
-            for (Role thisRole: roleSet ) {
-                System.out.println("    Role: " + thisRole);
+        List<User> userList = userService.usersList();
+        for (User anUser: userList) {
+            System.out.println("--------------------------");
+            System.out.println("User id " + anUser.getId());
+            System.out.println(anUser);
+            System.out.println("============= Now trying to get roles... =============");
+            User aUser = userService.getUser(anUser.getLogin());
+            Set<Role> roleRes = aUser.getRoles();
+            for (Role itRole: roleRes) {
+                System.out.print("Role_id = " + itRole.getId() + " " + itRole.getRole());
+                System.out.println(" auth " + itRole.getAuthority());
             }
+            System.out.println(" ================ End get Roles... ==============\n");
         }
-        System.out.println(" ================ End get Roles... ==============");
 
     }
 }

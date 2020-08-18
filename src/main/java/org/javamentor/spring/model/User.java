@@ -35,7 +35,7 @@ public class User  implements UserDetails {
 
     public User() {
 //        roles = new HashSet<>();
-//        roles.add(new Role(1L, "ROLE_USER"));
+     //  roles.add(new Role(1L, "ROLE_USER"));
     }
 
     public User(String login, String password, int age, Set<Role> roles) {
@@ -94,10 +94,10 @@ public class User  implements UserDetails {
 
     @Override
     public String toString() {
-        System.out.println("Called User.toString");
-        for (Role role: roles) {
-            System.out.println("Role: = " + role);
-        }
+//        System.out.println("Called User.toString");
+//        for (Role role: roles) {
+//            System.out.println("Role: = " + role);
+//        }
         return "Username: " + login +
                 " password: " + password + " id: " + id;
 

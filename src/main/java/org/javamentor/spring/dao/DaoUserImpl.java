@@ -26,6 +26,11 @@ public class DaoUserImpl implements DaoUser {
         System.out.println("Trying to add " + user);
 
         Set<Role> eSet = user.getRoles();
+//        for (Role theRole: eSet) {
+//            System.out.println("Try to add Role to DB..." + theRole);
+//            em.persist(theRole);
+//            System.out.println("Try to add Role to DB ..." + theRole + "success!");
+//        }
 
         if (eSet != null) {
             user.printAllRoles();
@@ -42,11 +47,12 @@ public class DaoUserImpl implements DaoUser {
         }
 
         System.out.println("saving ... (merge)");
-        user = em.merge(user);
+          user = em.merge(user);
+     //   em.persist(user);
         //em.merge(aRole);
 
         System.out.println("User " + user + " добавлен в базу данных");
-        em.clear();
+       // em.clear();
     }
 
     @Override
@@ -75,9 +81,25 @@ public class DaoUserImpl implements DaoUser {
                 query.setParameter("login", login);
             User aUser = query.getResultList().stream().findAny().orElse(null);
 
-            aUser = em.merge(aUser); //May be don't need
+//        assert aUser != null;
+//        Set<Role> roles = aUser.getRoles();
+//
+//            Set<Role> rolesToMerge = new HashSet<>();
+//
+//        for (Role aRole: roles) {
+//            System.out.println("Detected Roles: " + aRole);
+//            Set<User> userSet = aRole.getUsers();
+//
+//            for (User thisUser: userSet) {
+//                if (thisUser.getId() == aUser.getId()) {
+//                    Role inRole = new Role(aRole.getId(), aRole.getRole());
+//                    rolesToMerge.add(inRole);
+//                    System.out.println(" ---- Detected and added this  Role: " + inRole);
+//                }
+//            }
+//        }
 
-            return aUser;
+            return aUser ;
         }
 
     @Override
