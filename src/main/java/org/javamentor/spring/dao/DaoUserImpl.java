@@ -29,22 +29,23 @@ public class DaoUserImpl implements DaoUser {
         Set<Role> eSet = user.getRoles();
 
         if (eSet != null) {
-            System.out.println("Roles :=  " + eSet + " in List: ");
-            eSet.forEach(System.out::println);
+            user.printAllRoles();
+//            System.out.println("Roles :=  " + eSet + " in List: ");
+//            eSet.forEach(System.out::println);
             System.out.println(("... user has roles.... user.getRoles().size Detected " + eSet.size() + " roles"));
         } else {
-            System.out.println("user don't have a roles.");
-//            User tempUser = new User();
-//            tempUser.setLogin(user.getLogin());
-
-            Role defaultRole = new Role(1L, "ROLE_USER");
+            System.out.println("user don't have a roles. I add ROLE_USER");
             Set<Role> defSet = new HashSet<>();
-            defSet.add(defaultRole);
+            Role aRole = em.find(Role.class, 1L);
+            defSet.add(new Role(1L, "ROLE_USER"));
             user.setRoles(defSet);
+            System.out.println("Trying to add renewed  " + user);
         }
         System.out.println("saving ... (merge)");
         user = em.merge(user);
+
         System.out.println("User " + user + " добавлен в базу данных");
+        em.clear();
     }
 
     @Override
