@@ -28,12 +28,8 @@ public class AdminController {
 
     @GetMapping(value = "/add")
     public ModelAndView addUserForm(ModelAndView modelAndView) {
-        System.out.println("Add user form");
-        User user = new User();
-        System.out.println(user);
-        List<Role> listRoles = userService.rolesList();
-        modelAndView.addObject("roles", listRoles);
-        modelAndView.addObject("user", user);
+        System.out.println("Add user form (GET)");
+        getNewModelAndView(modelAndView);
         modelAndView.setViewName("admin/create_del_later");
         return modelAndView;
     }
@@ -44,12 +40,39 @@ public class AdminController {
 //        model.put("user", new User());
 //        return "create_user";
 //    }
-
+//
     @PostMapping("/add")
     public String addUser(@ModelAttribute User user) {
+        System.out.println("Add user form (Post)");
         userService.createNewUser(user);
         return "redirect:/admin/start";
     }
+
+    @GetMapping(value = "/new")
+    public ModelAndView addNewUserForm(ModelAndView modelAndView) {
+        System.out.println("Add new user form (GET)");
+        getNewModelAndView(modelAndView);
+        modelAndView.setViewName("admin/add_new");
+        return modelAndView;
+    }
+
+    private void getNewModelAndView(ModelAndView modelAndView) {
+        User user = new User();
+        user.setLogin("somebody");
+        user.setPassword("some password");
+        System.out.println(user);
+        List<Role> listRoles = userService.rolesList();
+        modelAndView.addObject("roles", listRoles);
+        modelAndView.addObject("user", user);
+    }
+
+    @PostMapping("/new")
+    public String newUser(@ModelAttribute User user) {
+        System.out.println("Add user form (Post)");
+        userService.createNewUser(user);
+        return "redirect:/admin/start";
+    }
+
 
     @GetMapping("/edit")
     public ModelAndView editForm(@RequestParam(name = "id", defaultValue = "1") long id) {
@@ -76,6 +99,20 @@ public class AdminController {
         userService.deleteUser(id);
         return "redirect:/admin/start";
     }
+
+    @GetMapping("/search")
+    public String findUserByIdForm(Map<String, Object> model) {
+        return "admin/search_form";
+    }
+
+    @GetMapping("/searchResult")
+    public ModelAndView findUserResultForm(@RequestParam(name = "id", defaultValue = "1") long id) {
+        User user = userService.readUser(id);
+        ModelAndView mav = new ModelAndView("admin/search_result_form");
+        mav.addObject("user", user);
+        return mav;
+    }
+
 
 //    @GetMapping("/add")
 //    public String newUserForm(Map<String, Object> model) {

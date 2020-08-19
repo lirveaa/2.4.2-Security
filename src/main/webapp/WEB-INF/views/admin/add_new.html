@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://xmlns.jcp.org/jsf/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div align="center">
+<form action="#" th:action="@{/admin/new}" th:object="${user}" method="POST">
+    Name: <input type="text" th:field="${user.login}" />
+    Password: <input type="text" th:field="${user.password}" />
+    <select th:name="auth" size="1" >
+        <option>ADMIN</option>
+        <option>USER</option>
+    </select>
+    <input type="submit" value="Submit">
+</form>
+</div>
+</body>
+</html>
