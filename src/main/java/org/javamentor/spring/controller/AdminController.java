@@ -26,12 +26,6 @@ public class AdminController {
         return "/admin/start";
     }
 
-//    @GetMapping(value = {"/info", "/"})
-//    public ModelAndView index(@AuthenticationPrincipal User user) {
-//        ModelAndView mav= new ModelAndView("/user/user_page");
-//        mav.addObject("user", user);
-//        return mav;
-//    }
 
     @GetMapping(value = "/new")
     public ModelAndView addNewUserForm(ModelAndView modelAndView) {
@@ -86,14 +80,17 @@ public class AdminController {
     }
 
     @GetMapping("/search")
-    public String findUserByIdForm(Map<String, Object> model) {
+    public String findUserByIdForm() {
         return "admin/search_form";
     }
 
-    @GetMapping("/searchResult")
-    public ModelAndView findUserResultForm(@RequestParam(name = "id", defaultValue = "1") long id) {
+    @PostMapping("/searchResult")
+    public ModelAndView findUserResultForm(@RequestParam(name = "id", defaultValue = "1") long id,
+                                           ModelAndView mav) {
         User user = userService.readUser(id);
-        ModelAndView mav = new ModelAndView("admin/search_result_form");
+        System.out.println("Search result. id = " + id);
+        System.out.println(user);
+        mav.setViewName("admin/search_result_form");
         mav.addObject("user", user);
         return mav;
     }
@@ -101,7 +98,7 @@ public class AdminController {
     private void getNewModelAndView(ModelAndView modelAndView) {
         User user = new User();
         user.setLogin("somebody");
-        user.setPassword("some password");
+        user.setPassword("password");
         System.out.println(user);
         List<Role> listRoles = userService.rolesList();
         modelAndView.addObject("roles", listRoles);

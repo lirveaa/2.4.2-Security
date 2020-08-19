@@ -7,15 +7,17 @@
 <body>
 <div th:align="center">
     <h4>Find user by id form</h4>
-    <form action="admin/searchResult" method="get" modelAttribute="id">
+<!--    <form action="admin/searchResult" method="post" modelAttribute="id">-->
+        <form action="#" th:action="@{/admin/searchResult}" th:object="${is}" method="POST">
+<!--        <form action="edit" method="post" modelAttribute="user">-->
         <table border="0" cellpadding="5">
             <tr>
                 <td>Id:</td>
-                <td><input type="text" id="id" name="id" value="1">
-                <td colspan="2"><input type="submit" value="Search"/></td>
-                </td>
+<!--                <td><input type="text" id="id" name="id" value="1">-->
+                <td><input type="text" id="id" name="id" th:value=${id}></td>
             </tr>
             <tr>
+                <td colspan="2"><input type="submit" value="Search"/></td>
             </tr>
         </table>
     </form>

@@ -20,7 +20,7 @@ import java.util.Set;
 @RequestMapping("/")
 public class StartController {
 
-    private static boolean isInit = true;
+    private static boolean isInit = true; // change to false for Init
 
     @Autowired
     private UserService userService;
@@ -31,7 +31,7 @@ public class StartController {
         System.out.println("Principal = " + principal.getName());
 
         List<String> messages = new ArrayList<>();
-        messages.add("Hello!");
+        messages.add("Hello, " + principal.getName() + "!");
         messages.add("I'm Spring MVC-SECURITY application");
         messages.add("5.2.0 version by sep'19 ");
         model.addAttribute("messages", messages);
@@ -43,15 +43,6 @@ public class StartController {
         return "hello";
     }
 
-//    @GetMapping("login")
-//    public String loginPage() {
-//        return "login";
-//    }
-
-    @GetMapping("log-out-ok")
-    public String goToExit() {
-        return  "logged_out_form";
-    }
 
     private void insertDataToDatabase() {
         System.out.println("\nInserting data ....");
