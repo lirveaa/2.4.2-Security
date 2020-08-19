@@ -1,10 +1,13 @@
+org\javamentor\spring\service\RoleService.class
 org\javamentor\spring\service\UserService.class
 org\javamentor\spring\controller\UserController.class
 org\javamentor\spring\config\AppInit.class
 org\javamentor\spring\dao\DaoUserImpl.class
+org\javamentor\spring\repository\RoleDao.class
+org\javamentor\spring\service\RoleServiceImpl.class
 org\javamentor\spring\config\SecurityConfig.class
-org\javamentor\spring\model\RoleEnum.class
 org\javamentor\spring\config\SpringSecurityInitializer.class
+org\javamentor\spring\repository\RoleDaoImpl.class
 org\javamentor\spring\controller\AdminController.class
 org\javamentor\spring\dao\DaoUser.class
 org\javamentor\spring\service\UserServiceImpl.class

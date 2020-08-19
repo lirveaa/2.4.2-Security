@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${headline}"></title>
+</head>
+<body>
+<div th:align="center">
+    <h1>start</h1>
+
+    <table th:border="1" th:align="center">
+        <thead>
+        <tr>
+            <th th:width="80">User's id</th>
+            <th th:width="150">Login</th>
+            <th th:width="150">Password</th>
+            <th th:width="80">Year of born</th>
+            <th th:width="150">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <div th:each="user: ${listUsers}">
+            <tr cols>
+                <td th:text=${user.id} th:align="center"></td>
+                <td th:text=${user.login} th:align="center"></td>
+                <td th:text=${user.password} th:align="center"></td>
+                <td th:text=${user.age} th:align="center"></td>
+                <td align="center">
+                    <a th:href="@{/admin/edit?id=} + ${user.id}">Edit</a>
+                    &nbsp &nbsp
+                    <a th:href="@{/admin/delete?id=} + ${user.id}">Delete</a>
+                </td>
+            </tr>
+        </div>
+        </tbody>
+    </table>
+
+    <h3><a href="/admin/add">Add new User</a></h3>
+    <h3><a href="find">Find User</a></h3>
+</div>
+</body>
+</html>

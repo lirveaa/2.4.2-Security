@@ -36,31 +36,26 @@ public class UserController {
         return "index";
     }
 
-    @GetMapping("/start")
-    public String startMVCApp(ModelMap modelMap) {
-        if (!isInit) {
-            insertDataToDatabase();
-            isInit = true;
-        }
-        System.out.println("\n=========== I'm in startMVCApp method() ========");
-        List<User> userList = userService.usersList();
-//        System.out.println("\n====== Called startMVCApp method() from List: ======");
-//        for (int i = 0; i < userList.size(); i++) {
-//            System.out.println(userList.get(i));
-//            Set<Role> roleSet = userList.get(i).getRoles();
-//            for (Role thisRole: roleSet ) {
-//                System.out.println("    Role: " + thisRole);
-//            }
-//        }
-        modelMap.addAttribute("listUsers", userList);
-        return "start";
-    }
+//    @GetMapping("/start")
+//    public String startMVCApp(ModelMap modelMap) {
+//        List<User> userList = userService.usersList();
+////        System.out.println("\n====== Called startMVCApp method() from List: ======");
+////        for (int i = 0; i < userList.size(); i++) {
+////            System.out.println(userList.get(i));
+////            Set<Role> roleSet = userList.get(i).getRoles();
+////            for (Role thisRole: roleSet ) {
+////                System.out.println("    Role: " + thisRole);
+////            }
+////        }
+//        modelMap.addAttribute("listUsers", userList);
+//        return "start";
+//    }
 
-    @GetMapping("/create")
-    public String newUserForm(Map<String, Object> model) {
-        model.put("user", new User());
-        return "create_user";
-    }
+//    @GetMapping("/create")
+//    public String newUserForm(Map<String, Object> model) {
+//        model.put("user", new User());
+//        return "create_user";
+//    }
 
     @GetMapping("/find")
     public String findUserByIdForm(Map<String, Object> model) {
@@ -95,62 +90,62 @@ public class UserController {
         return "redirect:/start";
     }
 
-    @GetMapping("/delete")
-    public String deleteUserForm(@RequestParam(name = "id", defaultValue = "1") long id) {
-        userService.deleteUser(id);
-        return "redirect:/user/start";
-    }
-
-    private void insertDataToDatabase() {
-        System.out.println("\nInserting data ....");
-
-        Role roleUser = new Role(1L, "ROLE_USER");
-        Role roleAdmin = new Role(2L, "ROLE_ADMIN");
-
-
-        Set<Role> set1 = new HashSet<Role>();
-        set1.add(roleUser);
-        set1.add(roleAdmin);
-
-        Set<Role>  set2 = new HashSet<>();
-        set2.add(roleAdmin);
-
-        Set<Role> set3 = new HashSet<>();
-        set3.add(roleUser);
-
-
-        User marlo = new User("Marlon", "pass", 1955, set1);
-        User john = new User("Elton", "Pass1", 1960, set2);
-        User jackson = new User("Michael", "password", 1965, set3);
-        User jagger = new User("Mick", "pass", 1956, set3);
-        User tiger = new User("test", "test", 1970, set2);
-
-        marlo.getRoles().add(roleAdmin);
-
-
-        userService.createNewUser(marlo);
-        userService.createNewUser(john);
-        userService.createNewUser(jackson);
-        userService.createNewUser(jagger);
-        userService.createNewUser(marlo);
-        userService.createNewUser(tiger);
-
-        System.out.println("\n====== List: ======");
-        List<User> userList = userService.usersList();
-        for (User anUser: userList) {
-            System.out.println("--------------------------");
-            System.out.println("User id " + anUser.getId());
-            System.out.println(anUser);
-            System.out.println("============= Now trying to get roles... =============");
-            User aUser = userService.getUser(anUser.getLogin());
-            Set<Role> roleRes = aUser.getRoles();
-            for (Role itRole: roleRes) {
-                System.out.print("Role_id = " + itRole.getId() + " " + itRole.getRole());
-                System.out.println(" auth " + itRole.getAuthority());
-            }
-            System.out.println(" ================ End get Roles... ==============\n");
-        }
-
-    }
+//    @GetMapping("/delete")
+//    public String deleteUserForm(@RequestParam(name = "id", defaultValue = "1") long id) {
+//        userService.deleteUser(id);
+//        return "redirect:/user/start";
+//    }
+//
+//    private void insertDataToDatabase() {
+//        System.out.println("\nInserting data ....");
+//
+//        Role roleUser = new Role(1L, "ROLE_USER");
+//        Role roleAdmin = new Role(2L, "ROLE_ADMIN");
+//
+//
+//        Set<Role> set1 = new HashSet<Role>();
+//        set1.add(roleUser);
+//        set1.add(roleAdmin);
+//
+//        Set<Role>  set2 = new HashSet<>();
+//        set2.add(roleAdmin);
+//
+//        Set<Role> set3 = new HashSet<>();
+//        set3.add(roleUser);
+//
+//
+//        User marlo = new User("Marlon", "pass", 1955, set1);
+//        User john = new User("Elton", "Pass1", 1960, set2);
+//        User jackson = new User("Michael", "password", 1965, set3);
+//        User jagger = new User("Mick", "pass", 1956, set3);
+//        User tiger = new User("test", "test", 1970, set2);
+//
+//        marlo.getRoles().add(roleAdmin);
+//
+//
+//        userService.createNewUser(marlo);
+//        userService.createNewUser(john);
+//        userService.createNewUser(jackson);
+//        userService.createNewUser(jagger);
+//        userService.createNewUser(marlo);
+//        userService.createNewUser(tiger);
+//
+//        System.out.println("\n====== List: ======");
+//        List<User> userList = userService.usersList();
+//        for (User anUser: userList) {
+//            System.out.println("--------------------------");
+//            System.out.println("User id " + anUser.getId());
+//            System.out.println(anUser);
+//            System.out.println("============= Now trying to get roles... =============");
+//            User aUser = userService.getUser(anUser.getLogin());
+//            Set<Role> roleRes = aUser.getRoles();
+//            for (Role itRole: roleRes) {
+//                System.out.print("Role_id = " + itRole.getId() + " " + itRole.getRole());
+//                System.out.println(" auth " + itRole.getAuthority());
+//            }
+//            System.out.println(" ================ End get Roles... ==============\n");
+//        }
+//
+//    }
 }
 
