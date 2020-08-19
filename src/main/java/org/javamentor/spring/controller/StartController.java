@@ -19,7 +19,7 @@ import java.util.Set;
 @RequestMapping("/")
 public class StartController {
 
-    private static boolean isInit = false;
+    private static boolean isInit = true;
 
     @Autowired
     private UserService userService;
@@ -32,10 +32,10 @@ public class StartController {
         messages.add("5.2.0 version by sep'19 ");
         model.addAttribute("messages", messages);
 
-//        if (!isInit) {
-//            insertDataToDatabase();
-//            isInit = true;
-//        }
+        if (!isInit) {
+            insertDataToDatabase();
+            isInit = true;
+        }
        //     checkResult(); // checking results
         return "hello";
     }

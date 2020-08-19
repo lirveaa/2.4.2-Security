@@ -54,19 +54,6 @@ public class AdminController {
         return "redirect:/admin/start";
     }
 
-    private void getNewModelAndView(ModelAndView modelAndView) {
-        User user = new User();
-        user.setLogin("somebody");
-        user.setPassword("some password");
-        System.out.println(user);
-        List<Role> listRoles = userService.rolesList();
-        modelAndView.addObject("roles", listRoles);
-        modelAndView.addObject("user", user);
-    }
-
-
-
-
     @GetMapping("/edit")
     public ModelAndView editForm(@RequestParam(name = "id", defaultValue = "1") long id) {
         ModelAndView mav = new ModelAndView("admin/update");
@@ -75,17 +62,20 @@ public class AdminController {
         return mav;
     }
 
-    @PostMapping(value = "/update")
-    public String updateUser(@ModelAttribute("user") User user) {
+    @PostMapping("/edit")
+    public String editUser(@RequestParam(name = "id", defaultValue = "1") long id,
+                @ModelAttribute User user) {
+        Set<Role>  setOldRoles = userService.readUser(id).getRoles();
+        user.setRoles(setOldRoles);
         userService.updateUser(user);
         return "redirect:/admin/start";
     }
 
-    @PostMapping(value = "/save")
-    public String saveUser(@ModelAttribute("user") User user) {
-        userService.createNewUser(user);
-        return "redirect:/admin/start";
-    }
+//    @PostMapping(value = "/save")
+//    public String saveUser(@ModelAttribute("user") User user) {
+//        userService.createNewUser(user);
+//        return "redirect:/admin/start";
+//    }
 
     @GetMapping("/delete")
     public String deleteUserForm(@RequestParam(name = "id", defaultValue = "1") long id) {
@@ -106,22 +96,14 @@ public class AdminController {
         return mav;
     }
 
-
-//    @GetMapping("/add")
-//    public String newUserForm(Map<String, Object> model) {
-//        model.put("user", new User());
-//        return "admin/add";
-//    }
-
-
-//    @GetMapping("/edit")
-//    public String editPage(Long id, ModelMap modelMap) {
-//        User user = userService.readUser(id);
-//        System.out.println("Edit from AdminController ");
-//        System.out.println("User by id " + id);
-//        System.out.println(user);
-//        modelMap.addAttribute("user", user);
-//        return "/admin/edit";
-//    }
+    private void getNewModelAndView(ModelAndView modelAndView) {
+        User user = new User();
+        user.setLogin("somebody");
+        user.setPassword("some password");
+        System.out.println(user);
+        List<Role> listRoles = userService.rolesList();
+        modelAndView.addObject("roles", listRoles);
+        modelAndView.addObject("user", user);
+    }
 
 }
