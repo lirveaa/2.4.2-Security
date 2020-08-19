@@ -34,7 +34,7 @@ public class DaoUserImpl implements DaoUser {
         System.out.println(("Detected " + eSet.size() + " roles"));
         user.printAllRoles();
         user = em.merge(user);
-        System.out.println(user + " добавлен в базу данных");
+        System.out.println(user + " - добавлен в базу данных");
     }
 
     @Override

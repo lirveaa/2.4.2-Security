@@ -22,7 +22,7 @@ public class StartController {
     private static boolean isInit = false;
 
     @Autowired
-    public UserService userService;
+    private UserService userService;
 
     @RequestMapping(value = "hello", method = RequestMethod.GET)
     public String printWelcome(ModelMap model) {

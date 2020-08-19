@@ -9,6 +9,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -26,21 +27,6 @@ public class AdminController {
         return "/admin/start";
     }
 
-    @GetMapping(value = "/add")
-    public ModelAndView addUserForm(ModelAndView modelAndView) {
-        System.out.println("Add user form (GET)");
-        getNewModelAndView(modelAndView);
-        modelAndView.setViewName("admin/create_del_later");
-        return modelAndView;
-    }
-    @PostMapping("/add")
-    public String addUser(@ModelAttribute User user) {
-        System.out.println("Add user form (Post)");
-        System.out.println(user);
-        userService.createNewUser(user);
-        return "redirect:/admin/start";
-    }
-
     @GetMapping(value = "/new")
     public ModelAndView addNewUserForm(ModelAndView modelAndView) {
         System.out.println("Add new user form (GET)");
@@ -50,9 +36,15 @@ public class AdminController {
     }
 
     @PostMapping("/new")
-    public String newUser(@ModelAttribute User user) {
+    public String newUser(@RequestParam(name = "auth", defaultValue = "USER") String auth, @ModelAttribute User user) {
         System.out.println("Add user form (Post)");
         System.out.println(user);
+        System.out.println("POST auth = " + auth);
+        if (auth.equals("USER")) {
+            user.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
+        } else if (auth.equals("ADMIN")) {
+            user.setRoles(Collections.singleton(new Role(2L, "ROLE_ADMIN")));
+        }
         userService.createNewUser(user);
         return "redirect:/admin/start";
     }
