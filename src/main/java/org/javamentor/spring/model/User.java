@@ -91,16 +91,10 @@ public class User  implements UserDetails {
         }
     }
 
-
     @Override
     public String toString() {
-//        System.out.println("Called User.toString");
-//        for (Role role: roles) {
-//            System.out.println("Role: = " + role);
-//        }
         return "Username: " + login +
                 " password: " + password + " id: " + id;
-
     }
 
 

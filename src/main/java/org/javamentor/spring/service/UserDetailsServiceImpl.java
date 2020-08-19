@@ -40,6 +40,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String aName) throws UsernameNotFoundException {
         // с помощью нашего сервиса UserService получаем User
         User user = userService.getUser(aName);
+
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
         // указываем роли для этого пользователя
         Set<GrantedAuthority> roles = new HashSet();
         roles.add(new SimpleGrantedAuthority("ROLE_ADMIN"));

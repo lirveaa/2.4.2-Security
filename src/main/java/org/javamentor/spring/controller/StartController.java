@@ -36,7 +36,7 @@ public class StartController {
             insertDataToDatabase();
             isInit = true;
         }
-            checkResult(); // checking results
+       //     checkResult(); // checking results
         return "hello";
     }
 

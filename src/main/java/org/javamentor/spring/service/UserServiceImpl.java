@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -20,6 +21,11 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void createNewUser(User user) {
+        if (user.getRoles().size() == 0) {
+            System.out.println("\nChecking roles in the createNewUser(User user).method in the UserServiceImpl.class");
+            System.out.println("adding default ROLE_USER role because null roles received = ");
+            user.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
+        }
         daoUser.createNewUser(user);
     }
 

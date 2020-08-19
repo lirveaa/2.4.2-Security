@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,37 +23,18 @@ public class DaoUserImpl implements DaoUser {
     @Override
     public void createNewUser(User user) {
 
-        System.out.println("\n ==== createNewUser method in DaoUserImpl");
+        System.out.println("--- createNewUser method in DaoUserImpl");
         System.out.println("Trying to add " + user);
-
         Set<Role> eSet = user.getRoles();
-//        for (Role theRole: eSet) {
-//            System.out.println("Try to add Role to DB..." + theRole);
-//            em.persist(theRole);
-//            System.out.println("Try to add Role to DB ..." + theRole + "success!");
-//        }
 
-        if (eSet != null) {
-            user.printAllRoles();
-//            System.out.println("Roles :=  " + eSet + " in List: ");
-//            eSet.forEach(System.out::println);
-            System.out.println(("... user has roles.... user.getRoles().size Detected " + eSet.size() + " roles"));
-        } else {
-            System.out.println("user don't have a roles. I add ROLE_USER");
-            Set<Role> defSet = new HashSet<>();
-            Role aRole = em.find(Role.class, 1L);
-            defSet.add(aRole);
-            user.setRoles(defSet);
-            System.out.println("Trying to add renewed  " + user);
+        if (eSet.size() == 0) {
+            System.out.println("!!!!! WARNING !!!! user don't have a roles. I add ROLE_USER");
+            user.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
         }
-
-        System.out.println("saving ... (merge)");
-          user = em.merge(user);
-     //   em.persist(user);
-        //em.merge(aRole);
-
-        System.out.println("User " + user + " добавлен в базу данных");
-       // em.clear();
+        System.out.println(("Detected " + eSet.size() + " roles"));
+        user.printAllRoles();
+        user = em.merge(user);
+        System.out.println(user + " добавлен в базу данных");
     }
 
     @Override
@@ -80,25 +62,6 @@ public class DaoUserImpl implements DaoUser {
                     User.class );
                 query.setParameter("login", login);
             User aUser = query.getResultList().stream().findAny().orElse(null);
-
-//        assert aUser != null;
-//        Set<Role> roles = aUser.getRoles();
-//
-//            Set<Role> rolesToMerge = new HashSet<>();
-//
-//        for (Role aRole: roles) {
-//            System.out.println("Detected Roles: " + aRole);
-//            Set<User> userSet = aRole.getUsers();
-//
-//            for (User thisUser: userSet) {
-//                if (thisUser.getId() == aUser.getId()) {
-//                    Role inRole = new Role(aRole.getId(), aRole.getRole());
-//                    rolesToMerge.add(inRole);
-//                    System.out.println(" ---- Detected and added this  Role: " + inRole);
-//                }
-//            }
-//        }
-
             return aUser ;
         }
 

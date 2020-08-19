@@ -33,17 +33,10 @@ public class AdminController {
         modelAndView.setViewName("admin/create_del_later");
         return modelAndView;
     }
-
-
-//    @GetMapping("/add")
-//    public String newUserForm(Map<String, Object> model) {
-//        model.put("user", new User());
-//        return "create_user";
-//    }
-//
     @PostMapping("/add")
     public String addUser(@ModelAttribute User user) {
         System.out.println("Add user form (Post)");
+        System.out.println(user);
         userService.createNewUser(user);
         return "redirect:/admin/start";
     }
@@ -56,6 +49,14 @@ public class AdminController {
         return modelAndView;
     }
 
+    @PostMapping("/new")
+    public String newUser(@ModelAttribute User user) {
+        System.out.println("Add user form (Post)");
+        System.out.println(user);
+        userService.createNewUser(user);
+        return "redirect:/admin/start";
+    }
+
     private void getNewModelAndView(ModelAndView modelAndView) {
         User user = new User();
         user.setLogin("somebody");
@@ -66,12 +67,7 @@ public class AdminController {
         modelAndView.addObject("user", user);
     }
 
-    @PostMapping("/new")
-    public String newUser(@ModelAttribute User user) {
-        System.out.println("Add user form (Post)");
-        userService.createNewUser(user);
-        return "redirect:/admin/start";
-    }
+
 
 
     @GetMapping("/edit")
