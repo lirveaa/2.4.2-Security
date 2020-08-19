@@ -47,7 +47,6 @@ public class WebConfig implements WebMvcConfigurer {
         return templateEngine;
     }
 
-
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
         ThymeleafViewResolver resolver = new ThymeleafViewResolver();
@@ -56,11 +55,11 @@ public class WebConfig implements WebMvcConfigurer {
         registry.viewResolver(resolver);
     }
 
-    @Override // добавлен позже из Хабра
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/login").setViewName("login");
-        registry.addViewController("/admin").setViewName("admin/start");
-        registry.addViewController("/user").setViewName("user/user_page");
-    }
+//    @Override // добавлен позже из Хабра
+//    public void addViewControllers(ViewControllerRegistry registry) {
+//        registry.addViewController("/login").setViewName("/login");
+//        registry.addViewController("/admin").setViewName("/admin/start");
+//        registry.addViewController("/user").setViewName("user/user_page");
+//    }
 
 }

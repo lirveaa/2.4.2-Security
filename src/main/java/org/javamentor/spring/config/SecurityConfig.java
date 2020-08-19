@@ -20,10 +20,13 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @ComponentScan("org.javamentor.spring")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private AuthProviderImpl authProvider;
+
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("a").password("a").roles("ADMIN");
-        
+      //  auth.inMemoryAuthentication().withUser("a").password("a").roles("ADMIN");
+        auth.authenticationProvider(authProvider);
     }
 
     @Override
@@ -47,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // указываем URL логаута
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 // указываем URL при удачном логауте
-                .logoutSuccessUrl("/login?logout")
+                .logoutSuccessUrl("/log_out_form")
                 //выклчаем кроссдоменную секьюрность (на этапе обучения неважна)
                 .and().csrf().disable();
 
@@ -55,14 +58,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // делаем страницу регистрации недоступной для авторизированных пользователей
                 .authorizeRequests()
                 //страницы аутентификаци доступна всем
-                .antMatchers("/login").anonymous()
+                .antMatchers("/", "/login").anonymous()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/user/**").hasRole("USER")
 
                 // защищенные URL
-                .antMatchers("/hello").access("hasAnyRole('ADMIN')")
+                .antMatchers("/hello").access("hasAnyRole('ADMIN', 'USER')")
                 .anyRequest().authenticated();
+//                .and().httpBasic();
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {

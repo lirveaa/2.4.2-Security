@@ -4,6 +4,7 @@ import org.javamentor.spring.model.Role;
 import org.javamentor.spring.model.User;
 import org.javamentor.spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,13 @@ public class AdminController {
         modelMap.addAttribute("listUsers", userList);
         return "/admin/start";
     }
+
+//    @GetMapping(value = {"/info", "/"})
+//    public ModelAndView index(@AuthenticationPrincipal User user) {
+//        ModelAndView mav= new ModelAndView("/user/user_page");
+//        mav.addObject("user", user);
+//        return mav;
+//    }
 
     @GetMapping(value = "/new")
     public ModelAndView addNewUserForm(ModelAndView modelAndView) {
@@ -70,12 +78,6 @@ public class AdminController {
         userService.updateUser(user);
         return "redirect:/admin/start";
     }
-
-//    @PostMapping(value = "/save")
-//    public String saveUser(@ModelAttribute("user") User user) {
-//        userService.createNewUser(user);
-//        return "redirect:/admin/start";
-//    }
 
     @GetMapping("/delete")
     public String deleteUserForm(@RequestParam(name = "id", defaultValue = "1") long id) {

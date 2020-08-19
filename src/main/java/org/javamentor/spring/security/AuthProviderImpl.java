@@ -15,9 +15,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Component
@@ -27,8 +25,11 @@ public class AuthProviderImpl implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+
         String login = authentication.getName();
-        System.out.println("We are in AuthProviderImpl authentication.getName() = " + login);
+        System.out.println("We are in AuthProviderImpl authentication.getName() : ");
+        System.out.println("Session authented user is " + login);
+
         User user = userService.getUser(login);
 
         if (user == null) {
@@ -43,18 +44,17 @@ public class AuthProviderImpl implements AuthenticationProvider {
 
         System.out.println("Was found user " + user + " by this login " + login);
         System.out.println("authentication.getDetails() = " + authentication.getDetails());
-        System.out.println("authentication.getPrincipal() " + authentication.getPrincipal());
+        System.out.println("authentication.getPrincipal() = " + authentication.getPrincipal());
+        System.out.println("authentication.getCredentials().toStr = " + authentication.getCredentials().toString());
 
-        Set<Role> roles1 = userService.getUser(login).getRoles();
-        System.out.println("His roles: " + roles1);
+        Set<Role> roles = userService.getUser(login).getRoles();
+        System.out.println("His roles: " + roles);
 
-        Set<GrantedAuthority> roles = new HashSet();
-        roles.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-       // roles.add(new SimpleGrantedAuthority(RoleEnum.ADMIN.name()));
-
-
-        Set<GrantedAuthority> authorities = roles;
-        return new UsernamePasswordAuthenticationToken(user, null, roles);
+        Set<GrantedAuthority> authorities = new HashSet();
+        for (Role role: roles) {
+            authorities.add(new SimpleGrantedAuthority(role.getRole()));
+        }
+        return new UsernamePasswordAuthenticationToken(login, user.getPassword(), authorities);
     }
 
     @Override

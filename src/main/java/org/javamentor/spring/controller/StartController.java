@@ -24,7 +24,7 @@ public class StartController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "hello", method = RequestMethod.GET)
+    @GetMapping("hello")
     public String printWelcome(ModelMap model) {
         List<String> messages = new ArrayList<>();
         messages.add("Hello!");
@@ -36,16 +36,15 @@ public class StartController {
             insertDataToDatabase();
             isInit = true;
         }
-       //     checkResult(); // checking results
         return "hello";
     }
 
-    @RequestMapping(value = "login", method = RequestMethod.GET)
+    @GetMapping("login")
     public String loginPage() {
         return "login";
     }
 
-    @GetMapping(value = "log-out-ok")
+    @GetMapping("log-out-ok")
     public String goToExit() {
         return  "logged_out_form";
     }
@@ -66,7 +65,6 @@ public class StartController {
         Set<Role> userSet = new HashSet<>();
         userSet.add(roleUser);
 
-
         User marlo = new User("admin", "admin", 1955, admSet);
         User john = new User("user", "user", 1960, userSet);
         User jackson = new User("boss", "boss", 1965, bothSet);
@@ -79,24 +77,4 @@ public class StartController {
         userService.createNewUser(jagger);
         userService.createNewUser(tiger);
     }
-
-    private void checkResult() {
-        System.out.println("\n====== List: ======");
-        List<User> userList = userService.usersList();
-        for (User anUser: userList) {
-            System.out.println("--------------------------");
-            System.out.println("User id " + anUser.getId());
-            System.out.println(anUser);
-            System.out.println("============= Now trying to get roles... =============");
-            User aUser = userService.getUser(anUser.getLogin());
-            Set<Role> roleRes = aUser.getRoles();
-            for (Role itRole: roleRes) {
-                System.out.print("Role_id = " + itRole.getId() + " " + itRole.getRole());
-                System.out.println(" auth " + itRole.getAuthority());
-            }
-            System.out.println(" ================ End get Roles... ==============\n");
-        }
-    }
-
-
 }
