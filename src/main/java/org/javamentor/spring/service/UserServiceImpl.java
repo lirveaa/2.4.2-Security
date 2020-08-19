@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public User getUser(String login) {
-            return daoUser.getUser(login);
+        return daoUser.getUser(login);
     }
 
     @Transactional

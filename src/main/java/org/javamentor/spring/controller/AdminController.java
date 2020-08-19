@@ -26,10 +26,8 @@ public class AdminController {
         return "/admin/start";
     }
 
-
     @GetMapping(value = "/new")
     public ModelAndView addNewUserForm(ModelAndView modelAndView) {
-        System.out.println("Add new user form (GET)");
         getNewModelAndView(modelAndView);
         modelAndView.addObject("isAdmin", false);
         modelAndView.addObject("isUser", true);
@@ -41,9 +39,6 @@ public class AdminController {
     public String newUser(@RequestParam(name="isAdmin", required = false) boolean isAdmin,
                           @RequestParam(name="isUser", required = false) boolean isUser,
                           @ModelAttribute User user) {
-        System.out.println("Add user form (Post)");
-        System.out.println(user);
-        System.out.println("POST  isAdmin=" + isAdmin + " isUser=" + isUser);
         Set<Role> rolesToAdd = new HashSet<>();
         if (isUser) {
            rolesToAdd.add(new Role(1L, "ROLE_USER"));
@@ -88,8 +83,6 @@ public class AdminController {
     public ModelAndView findUserResultForm(@RequestParam(name = "id", defaultValue = "1") long id,
                                            ModelAndView mav) {
         User user = userService.readUser(id);
-        System.out.println("Search result. id = " + id);
-        System.out.println(user);
         mav.setViewName("admin/search_result_form");
         mav.addObject("user", user);
         return mav;

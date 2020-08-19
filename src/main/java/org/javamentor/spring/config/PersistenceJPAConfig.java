@@ -61,7 +61,6 @@ public class PersistenceJPAConfig {
         properties.setProperty("hibernate.hbm2ddl.auto", "validate");
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
         properties.setProperty("hibernate.show_sql", "false");
-//        properties.setProperty("hibernate.mapping.class", )
         return properties;
     }
 }

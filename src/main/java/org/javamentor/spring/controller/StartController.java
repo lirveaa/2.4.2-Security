@@ -20,43 +20,35 @@ import java.util.Set;
 @RequestMapping("/")
 public class StartController {
 
-    private static boolean isInit = true; // change to false for Init
+    private static boolean isInit = false; // change to FALSE to STOP new Init
 
     @Autowired
     private UserService userService;
 
     @GetMapping("hello")
     public String printWelcome(ModelMap model, Principal principal) {
-        System.out.println("Start controller called...");
-        System.out.println("Principal = " + principal.getName());
-
         List<String> messages = new ArrayList<>();
         messages.add("Hello, " + principal.getName() + "!");
         messages.add("I'm Spring MVC-SECURITY application");
         messages.add("5.2.0 version by sep'19 ");
         model.addAttribute("messages", messages);
 
-        if (!isInit) {
+        if (isInit) {
             insertDataToDatabase();
-            isInit = true;
+            isInit = false;
         }
         return "hello";
     }
 
-
     private void insertDataToDatabase() {
         System.out.println("\nInserting data ....");
-
         Role roleUser = new Role(1L, "ROLE_USER");
         Role roleAdmin = new Role(2L, "ROLE_ADMIN");
-
         Set<Role> bothSet = new HashSet<Role>();
         bothSet.add(roleUser);
         bothSet.add(roleAdmin);
-
         Set<Role>  admSet = new HashSet<>();
         admSet.add(roleAdmin);
-
         Set<Role> userSet = new HashSet<>();
         userSet.add(roleUser);
 

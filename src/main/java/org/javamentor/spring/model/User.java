@@ -11,8 +11,8 @@ import java.util.Set;
 
 @Entity
 @Component("userBean")
-@Table(name = "users242")
-public class User  implements UserDetails {
+@Table(name = "users")
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,14 +28,12 @@ public class User  implements UserDetails {
     @Column(name = "age")
     private int age;
 
-    @ManyToMany (fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
     public User() {
-//        roles = new HashSet<>();
-     //  roles.add(new Role(1L, "ROLE_USER"));
     }
 
     public User(String login, String password, int age, Set<Role> roles) {
@@ -44,8 +42,6 @@ public class User  implements UserDetails {
         this.age = age;
         this.roles = roles;
     }
-
-
 
     public Long getId() {
         return id;
@@ -72,7 +68,7 @@ public class User  implements UserDetails {
     }
 
     public void setAge(int age) {
-        this.age= age;
+        this.age = age;
     }
 
     public Set<Role> getRoles() {
@@ -85,7 +81,7 @@ public class User  implements UserDetails {
 
     public void printAllRoles() {
         System.out.println(" === Set of roles: ");
-        for (Role role: roles) {
+        for (Role role : roles) {
             System.out.println(role);
         }
     }
@@ -95,7 +91,6 @@ public class User  implements UserDetails {
         return "Username: " + login +
                 " password: " + password + " id: " + id;
     }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

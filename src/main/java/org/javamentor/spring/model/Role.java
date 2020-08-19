@@ -2,12 +2,13 @@ package org.javamentor.spring.model;
 
 import org.springframework.stereotype.Component;
 import org.springframework.security.core.GrantedAuthority;
+
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 @Component("roleBean")
-@Table(name = "roles242")
+@Table(name = "roles")
 public class Role implements GrantedAuthority {
 
     @Id
@@ -24,7 +25,7 @@ public class Role implements GrantedAuthority {
     public Role() {
     }
 
-    public Role(long id,  String role ) {
+    public Role(long id, String role) {
         this.id = id;
         this.role = role;
     }

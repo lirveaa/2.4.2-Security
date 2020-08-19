@@ -9,7 +9,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -22,19 +21,13 @@ public class DaoUserImpl implements DaoUser {
 
     @Override
     public void createNewUser(User user) {
-
-        System.out.println("--- createNewUser method in DaoUserImpl");
-        System.out.println("Trying to add " + user);
         Set<Role> eSet = user.getRoles();
-
         if (eSet.size() == 0) {
             System.out.println("!!!!! WARNING !!!! user don't have a roles. I add ROLE_USER");
             user.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
         }
-        System.out.println(("Detected " + eSet.size() + " roles"));
-        user.printAllRoles();
         user = em.merge(user);
-        System.out.println(user + " - добавлен в базу данных");
+        System.out.println(user + " - added to database");
     }
 
     @Override
@@ -57,13 +50,13 @@ public class DaoUserImpl implements DaoUser {
 
     @Override
     public User getUser(String login) {
-            TypedQuery<User> query = em.createQuery(
-                    "select u from User u where u.login = :login",
-                    User.class );
-                query.setParameter("login", login);
-            User aUser = query.getResultList().stream().findAny().orElse(null);
-            return aUser ;
-        }
+        TypedQuery<User> query = em.createQuery(
+                "select u from User u where u.login = :login",
+                User.class);
+        query.setParameter("login", login);
+        User aUser = query.getResultList().stream().findAny().orElse(null);
+        return aUser;
+    }
 
     @Override
     public List<User> usersList() {
@@ -72,12 +65,10 @@ public class DaoUserImpl implements DaoUser {
         return query.getResultList();
     }
 
-//    @SuppressWarnings("unchecked")
     @Override
     public List<Role> rolesList() {
         TypedQuery<Role> query =
                 em.createQuery("SELECT u FROM Role u", Role.class);
         return query.getResultList();
     }
-
 }

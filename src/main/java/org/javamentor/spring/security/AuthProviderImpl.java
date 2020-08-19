@@ -27,31 +27,18 @@ public class AuthProviderImpl implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
         String login = authentication.getName();
-        System.out.println("We are in AuthProviderImpl authentication.getName() : ");
-        System.out.println("Session authented user is " + login);
-
         User user = userService.getUser(login);
 
         if (user == null) {
-            System.out.println("User not found =====");
             throw new UsernameNotFoundException("User not found");
         }
         String password = authentication.getCredentials().toString();
         if (!password.equals(user.getPassword())) {
-            System.out.println("wrong password (Bad credentials)");
-            throw new BadCredentialsException("Bad credentials!");
+            throw new BadCredentialsException("Incorrect password or username!");
         }
-
-        System.out.println("Was found user " + user + " by this login " + login);
-      //  System.out.println("authentication.getDetails() = " + authentication.getDetails());
-        System.out.println("authentication.getPrincipal() = " + authentication.getPrincipal());
-        System.out.println("authentication.getCredentials().toStr = " + authentication.getCredentials().toString());
-
         Set<Role> roles = userService.getUser(login).getRoles();
-        System.out.println("His roles: " + roles);
-
         Set<GrantedAuthority> authorities = new HashSet();
-        for (Role role: roles) {
+        for (Role role : roles) {
             authorities.add(new SimpleGrantedAuthority(role.getRole()));
         }
         return new UsernamePasswordAuthenticationToken(login, user.getPassword(), authorities);
