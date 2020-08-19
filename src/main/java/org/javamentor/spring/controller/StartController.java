@@ -32,10 +32,10 @@ public class StartController {
         messages.add("5.2.0 version by sep'19 ");
         model.addAttribute("messages", messages);
 
-        if (!isInit) {
-            insertDataToDatabase();
-            isInit = true;
-        }
+//        if (!isInit) {
+//            insertDataToDatabase();
+//            isInit = true;
+//        }
        //     checkResult(); // checking results
         return "hello";
     }
@@ -67,11 +67,11 @@ public class StartController {
         userSet.add(roleUser);
 
 
-        User marlo = new User("Mark", "pass", 1955, admSet);
-        User john = new User("Elton", "Pass1", 1960, userSet);
-        User jackson = new User("Michael", "password", 1965, bothSet);
-        User jagger = new User("Mick", "pass", 1956, admSet);
-        User tiger = new User("test", "test", 1970, bothSet);
+        User marlo = new User("admin", "admin", 1955, admSet);
+        User john = new User("user", "user", 1960, userSet);
+        User jackson = new User("boss", "boss", 1965, bothSet);
+        User jagger = new User("Ben", "Johnson", 1956, admSet);
+        User tiger = new User("Laura", "Crawford", 1970, bothSet);
 
         userService.createNewUser(marlo);
         userService.createNewUser(john);

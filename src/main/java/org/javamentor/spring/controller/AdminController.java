@@ -9,9 +9,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/admin")
@@ -31,20 +29,27 @@ public class AdminController {
     public ModelAndView addNewUserForm(ModelAndView modelAndView) {
         System.out.println("Add new user form (GET)");
         getNewModelAndView(modelAndView);
+        modelAndView.addObject("isAdmin", false);
+        modelAndView.addObject("isUser", true);
         modelAndView.setViewName("admin/add_new");
         return modelAndView;
     }
 
     @PostMapping("/new")
-    public String newUser(@RequestParam(name = "auth", defaultValue = "USER") String auth, @ModelAttribute User user) {
+    public String newUser(@RequestParam(name="isAdmin", required = false) boolean isAdmin,
+                          @RequestParam(name="isUser", required = false) boolean isUser,
+                          @ModelAttribute User user) {
         System.out.println("Add user form (Post)");
         System.out.println(user);
-        System.out.println("POST auth = " + auth);
-        if (auth.equals("USER")) {
-            user.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
-        } else if (auth.equals("ADMIN")) {
-            user.setRoles(Collections.singleton(new Role(2L, "ROLE_ADMIN")));
+        System.out.println("POST  isAdmin=" + isAdmin + " isUser=" + isUser);
+        Set<Role> rolesToAdd = new HashSet<>();
+        if (isUser) {
+           rolesToAdd.add(new Role(1L, "ROLE_USER"));
         }
+        if (isAdmin) {
+            rolesToAdd.add(new Role(2L, "ROLE_ADMIN"));
+        }
+        user.setRoles(rolesToAdd);
         userService.createNewUser(user);
         return "redirect:/admin/start";
     }

@@ -57,6 +57,11 @@ public class UserController {
 //        return "create_user";
 //    }
 
+    @GetMapping("/userinfo")
+    public String mainUserForm(Map<String, Object> model) {
+        return "/user/user_page";
+    }
+
     @GetMapping("/find")
     public String findUserByIdForm(Map<String, Object> model) {
         return "find_form";
