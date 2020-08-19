@@ -1,4 +1,4 @@
-<% response.sendRedirect("user/index"); %>
+<% response.sendRedirect("hello"); %>
 
 <html>
 <body>

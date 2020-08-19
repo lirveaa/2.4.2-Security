@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -25,7 +26,10 @@ public class StartController {
     private UserService userService;
 
     @GetMapping("hello")
-    public String printWelcome(ModelMap model) {
+    public String printWelcome(ModelMap model, Principal principal) {
+        System.out.println("Start controller called...");
+        System.out.println("Principal = " + principal.getName());
+
         List<String> messages = new ArrayList<>();
         messages.add("Hello!");
         messages.add("I'm Spring MVC-SECURITY application");
@@ -39,10 +43,10 @@ public class StartController {
         return "hello";
     }
 
-    @GetMapping("login")
-    public String loginPage() {
-        return "login";
-    }
+//    @GetMapping("login")
+//    public String loginPage() {
+//        return "login";
+//    }
 
     @GetMapping("log-out-ok")
     public String goToExit() {

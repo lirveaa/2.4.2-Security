@@ -43,7 +43,7 @@ public class AuthProviderImpl implements AuthenticationProvider {
         }
 
         System.out.println("Was found user " + user + " by this login " + login);
-        System.out.println("authentication.getDetails() = " + authentication.getDetails());
+      //  System.out.println("authentication.getDetails() = " + authentication.getDetails());
         System.out.println("authentication.getPrincipal() = " + authentication.getPrincipal());
         System.out.println("authentication.getCredentials().toStr = " + authentication.getCredentials().toString());
 
